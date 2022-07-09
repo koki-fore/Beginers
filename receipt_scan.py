@@ -38,19 +38,20 @@ def receipt_scan(img):
 def main():
     # 画像を単枚入力
     # 複数の場合はまだ考えない
-    #img_path = "./img/aiueo.png"
-    img_path = "./img/sample.png"
+    #img_path = "./receipt_img"
+    img_path = "./img"
+    img_name = "sample5.jpg"
     save_dir = "./result"
 
     # 画像を開く
-    img = Image.open(img_path)
+    img = Image.open(os.path.join(img_path, img_name))
     
     # 画像から文字を読み込む(receipt_scan 関数)
     txt = receipt_scan(img)
     #print(txt)
     
     # テキスト出力
-    f = open(os.path.join(save_dir, 'result.txt'), 'w')
+    f = open(os.path.join(save_dir, 'result_{}.txt').format(os.path.splitext(img_name)[0]), 'w')
     f.write(txt)
     f.close()
 
