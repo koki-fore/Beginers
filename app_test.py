@@ -19,10 +19,10 @@ class User(db.Model):
     student_id = db.Column(db.Integer)
     
 
-class Product(db.Model):
+class Product():
     def __init__(self,id,title,store,num,natural_price,buy_date,create_at,User_id):
         self.id = id
-        self.tile = title
+        self.title = title
         self.store = store
         self.num = num
         self.natural_price = natural_price
@@ -36,10 +36,11 @@ def create_test_data():
     store_len = random.randint(1,10)
     title_format = ""
     store_format = ""
+    fst = 'a'
     for i in range(title_len):
-        title_format += "a"+random.randint(0,26)
+        title_format += chr(ord(fst)+random.randint(0,26))
     for i in range(store_len):
-        store_format += "a"+random.randint(0,26)
+        store_format += chr(ord(fst)+random.randint(0,26))
     num = random.randint(1,100)
     natural_price = random.randint(100,2000)
     now = datetime.now()
@@ -49,10 +50,18 @@ def create_test_data():
     res = Product(id,title_format,store_format,num,natural_price,buy_date,create_at,user_id)
     return res
 
+
 # test data
-product1 = Product(10,"title","a",1,100,2020/4/10,90,100)
-product1 = Product(10,"title","a",1,100,2020/4/10,90,100)
-product1 = Product(10,"title","a",1,100,2020/4/10,90,100)
+# debug
+res = create_test_data()
+print("id = {}".format(res.id))
+print("title = {}".format(res.title))
+print("store = {}".format(res.store))
+print("num = {}".format(res.num))
+print("natural_price = {}".format(res.natural_price))
+print("buy_date = {}".format(res.buy_date))
+print("create_at = {}".format(res.create_at))
+print("User_id = {}".format(res.User_id))
 
 @app.route('/', methods=['POST', 'GET'])
 
