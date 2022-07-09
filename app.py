@@ -1,6 +1,7 @@
+from crypt import methods
 import os
 from flask import Flask, render_template
-from flask import request
+from flask import request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
 from datetime import datetime
@@ -31,13 +32,33 @@ class Product(db.Model):
     User_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
 
 
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/addReceipt', methods=['GET', 'POST'])
+def addReceipt():
+    if request.method == 'GET':
+        return render_template('addReceipt.html')
+    if request.method == 'POST':
+        form_title = request.form.get('title')
+        form_store.form.get('store')
+        form_num.form.get('num')
+        form_natural_price.form.get('natural_price')
+        form_buy_date/form.get('buy_date')
+        product = Product(
+            title=form_title,
+            store=form_store,
+            num=form_num,
+            natural_price=form_natural_price,
+            buy_date=form_buy_date
+        )
+        db.session.add(product)
+        db.session.comit()
+        return redirect(url_for('/'))
 
-def price():
-    return render_template('price.html' )
 
+@app.route('/products')
+def product_list():
+    products = Product.query.all()
+    return render_template('price.html', products=products)
 
-# @app.route('/kakaku', methods=['POST', 'GET'])
 
 
 if __name__ == '__main__':
