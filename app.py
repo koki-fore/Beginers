@@ -33,7 +33,7 @@ class Product(db.Model):
 
 @app.route('/', methods=['POST', 'GET'])
 
-def index():
+def price():
     return render_template('price.html' )
 
 
