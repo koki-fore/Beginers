@@ -1,10 +1,11 @@
 import os
 import cv2
 import pyocr
-import numpy as np
-import pandas as pd
+import matplotlib.pyplot as plt
 
 from PIL import Image
+
+import rectangle_detection
 
 path='C:\\Program Files\\Tesseract-OCR\\'
 os.environ['PATH'] = os.environ['PATH'] + path
@@ -13,7 +14,7 @@ os.environ['PATH'] = os.environ['PATH'] + path
 
 # 画像から文字をスキャンする
 def receipt_scan(img):
-    """_summary_
+    """
 
     Args:
         img (PIL.Image): main 関数で読み込んだ画像
@@ -38,14 +39,21 @@ def receipt_scan(img):
 def main():
     # 画像を単枚入力
     # 複数の場合はまだ考えない
-    #img_path = "./receipt_img"
-    img_path = "./img"
-    img_name = "sample5.jpg"
+    img_path = "./receipt_img"
+    #img_path = "./img"
+    img_name = "IMG_5498.jpg"
     save_dir = "./result"
+    threshold = 128
+    ksize = 51
 
     # 画像を開く
-    img = Image.open(os.path.join(img_path, img_name))
-    
+    img = cv2.imread(os.path.join(img_path, img_name))
+
+    # 画像の矩形検出・回転補正・しわ除去
+    img = rectangle_detection.process_img(img, threshold, ksize)
+    plt.imshow(img)
+    plt.show()
+
     # 画像から文字を読み込む(receipt_scan 関数)
     txt = receipt_scan(img)
     #print(txt)
