@@ -15,20 +15,20 @@
         </tr>
     </thead>
     <tbody>
-        {% for result in results %}
+        {% for product in products %}
         <tr>
-            <td>{{ result.id }}</td>
-            <td>{{ result.buy_date }}</td>
-            <td>{{ result.store }}</td>
-            <td>{{ result.title}}</td>
-            <td>{{ result.num }}</td>
-            <td>{{ result.natural_price }}</td>
-            <td>{{ result.sell_price }}</td>
-            <td>{{ result.user }}</td>
+            <td>{{ product.id }}</td>
+            <td>{{ product.buy_date }}</td>
+            <td>{{ product.store }}</td>
+            <td>{{ product.title}}</td>
+            <td>{{ product.num }}</td>
+            <td>{{ product.natural_price }}</td>
+            <td>{{ product.sell_price }}</td>
+            <td>{{ product.user }}</td>
             <td>
-                <a href="{{ url_for('result.update', id=result.id) }}"><button class="btn btn-primary">編集</button></a>
-                <a href="{{ url_for('result.delete', id=result.id) }}"><button class="btn btn-primary">消去</button></a>
-                <form action="/delete/{{ result.id }}" style="display: inline" method="post">
+                <a href="{{ url_for('product.update', id=product.id) }}"><button class="btn btn-primary">編集</button></a>
+                <a href="{{ url_for('product.delete', id=product.id) }}"><button class="btn btn-primary">消去</button></a>
+                <form action="/delete/{{ product.id }}" style="display: inline" method="post">
                     <input class="btn btn-danger" type="submit" value="削除" onclick='return confirm("削除しますがよろしいですか？")';>
                 </form>
             </td>
@@ -38,6 +38,9 @@
         {% endfor %}
     </tbody>
 </table>
+<form action="addReceipt" method="POST">
+    <button type="submit" class="btn btn-primary">追加</button>
+</form>
 </div>
  
 {% endblock %}
