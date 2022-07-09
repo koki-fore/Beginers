@@ -47,10 +47,12 @@ def main():
     
     # 画像から文字を読み込む(receipt_scan 関数)
     txt = receipt_scan(img)
-    print(txt)
+    #print(txt)
     
-    # CSV 出力
-    txt.to_csv(os.path.join(save_dir, 'result.csv'), header=False, index=False)
+    # テキスト出力
+    f = open(os.path.join(save_dir, 'result.txt'), 'w')
+    f.write(txt)
+    f.close()
 
 
 if __name__ == "__main__":
