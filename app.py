@@ -17,7 +17,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50))
     student_id = db.Column(db.Integer)
-    
+
 
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -34,12 +34,11 @@ class Product(db.Model):
 @app.route('/', methods=['POST', 'GET'])
 
 def index():
-    return render_template('templates/index.html' )
+    return render_template('price.html' )
+
 
 # @app.route('/kakaku', methods=['POST', 'GET'])
 
 
 if __name__ == '__main__':
-    app.debug = True
-    
-    app.run()
+    app.run(debug=True)
