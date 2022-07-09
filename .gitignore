@@ -1,0 +1,4 @@
+*.json
+.vscode
+__pycache__
+receipt_img
