@@ -39,16 +39,22 @@ class Product(db.Model):
     User_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
 
 
+@app.route('/products')
+def product_list():
+    products = Product.query.all()
+    return render_template('price.html', products=products)
+
 @app.route('/addReceipt', methods=['GET', 'POST'])
 def addReceipt():
     if request.method == 'GET':
         return render_template('addReceipt.html')
     if request.method == 'POST':
         form_title = request.form.get('title')
-        form_store.form.get('store')
-        form_num.form.get('num')
-        form_natural_price.form.get('natural_price')
-        form_buy_date/form.get('buy_date')
+        form_store=request.form.get('store')
+        form_num=request.form.get('num')
+        form_natural_price=request.form.get('natural_price')
+        form_buy_date=request.form.get('buy_date')
+
         product = Product(
             title=form_title,
             store=form_store,
@@ -58,13 +64,8 @@ def addReceipt():
         )
         db.session.add(product)
         db.session.commit()
-        return redirect(url_for('/'))
+        return redirect(url_for('/product'))
 
-
-@app.route('/products')
-def product_list():
-    products = Product.query.all()
-    return render_template('price.html', products=products)
 
 db.create_all()
 
