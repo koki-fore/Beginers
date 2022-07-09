@@ -73,8 +73,6 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-
-
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'POST':
@@ -102,7 +100,7 @@ def login():
         user = User.query.filter_by(username=username).first()
         if check_password_hash(user.password, password):
             login_user(user)
-            return redirect('/')
+            return redirect('/addReceipt')
     else:
         return render_template('login.html')
 
