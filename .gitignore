@@ -1,3 +1,4 @@
 user.db
-__pycache__/
-
+*.json
+__pycache__
+beginners.db

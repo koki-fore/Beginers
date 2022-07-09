@@ -1,20 +1,23 @@
-from flask import Flask
-from flask import render_template, request, redirect
+import os
+from flask import Flask, render_template
+from flask import request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, login_user, logout_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
-import os
 
+from datetime import datetime
+import pytz
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.db'
+app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:///beginners.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_ECHO']=True
 app.config['SECRET_KEY'] = os.urandom(24)
+
 db = SQLAlchemy(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-
 
 class User(UserMixin, db.Model):
     __tablename__ = "users"
@@ -23,6 +26,46 @@ class User(UserMixin, db.Model):
     student_id = db.Column(db.String(4))
     password = db.Column(db.String(12))
 
+
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(50))
+    store = db.Column(db.String(50))
+    num = db.Column(db.Integer)
+    natural_price = db.Column(db.Integer)
+    sell_price = db.Column(db.Integer)
+    buy_date =db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now(pytz.timezone('Asia/Tokyo')))
+    User_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+
+
+@app.route('/addReceipt', methods=['GET', 'POST'])
+def addReceipt():
+    if request.method == 'GET':
+        return render_template('addReceipt.html')
+    if request.method == 'POST':
+        form_title = request.form.get('title')
+        form_store.form.get('store')
+        form_num.form.get('num')
+        form_natural_price.form.get('natural_price')
+        form_buy_date/form.get('buy_date')
+        product = Product(
+            title=form_title,
+            store=form_store,
+            num=form_num,
+            natural_price=form_natural_price,
+            buy_date=form_buy_date
+        )
+        db.session.add(product)
+        db.session.commit()
+        return redirect(url_for('/'))
+
+
+@app.route('/products')
+def product_list():
+    products = Product.query.all()
+    return render_template('price.html', products=products)
+
 db.create_all()
 
 @login_manager.user_loader
@@ -30,9 +73,6 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -73,5 +113,5 @@ def logout():
     logout_user()
     return redirect('/login')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
