@@ -67,7 +67,7 @@ def addReceipt():
         )
         db.session.add(product)
         db.session.commit()
-        return redirect(url_for('/product'))
+        return redirect(url_for('product_list'))
 
 
 
