@@ -1,5 +1,6 @@
 from pathlib import Path
 import re
+from numpy import triu
 
 from pandas import to_numeric
 
@@ -67,7 +68,7 @@ def get_price(price_str):
             else:
                 item_name += now
     # 商品名，価格，個数
-    return item_name,price,cnt 
+    return [item_name,price,cnt]
 
 ########################################################
 # Get price data range
@@ -101,13 +102,42 @@ def get_price_range(data):
                 start = index
     return start,end
 
+def discount_name(price_str):
+    discount_format = ["値引","割引"]
+    for now_discount in discount_format:
+        if(now_discount in price_str):
+            return True
+    return False
+
+def except_price_name(item_name):
+    except_format = ["消費税"]
+    for now_except in except_format:
+        if(now_except in item_name):
+            return True
+    return False
+
 ########################################################
-# # Get all value
-# def get_all_value(data):
-#     start, end = get_price_range(data)
-    
+# Get all value
+def get_all_value(data):
+    start, end = get_price_range(data)
+    res = []
+    for it in range(start,end):
+        now_res = get_price(data[it])
+        if(len(res) > 0 and res[-1][1] == -1):
+            res[-1][2] = now_res[2]
+            if(res[-1][1] < now_res[1]):
+                res[-1][1] = now_res[1]
+        elif(discount_name(now_res[0]) == False and except_price_name(now_res[0]) == False):
+            res.append(now_res)
+    return res
 
-
+def get_true_all_value(answer_data):
+    res = []
+    for now in answer_data:
+        if(now[1] == -1):
+            continue
+        res.append(now)
+    return res
 
 test_dir_path = u"../Beginners/Beginers/result"
 
@@ -116,11 +146,7 @@ for it in Path(test_dir_path).glob("*"):
     print("\n{}".format(it))
     with open(it,"r") as f:
         reader = f.read().split("\n")
-        start,end = get_price_range(reader)
-        # print("{} to {}".format(start,end))
-        for i in range(start,end):
-            now_result = get_price(reader[i])
-            if(now_result[1] != -1):
-                print("{}, {}".format(reader[i],now_result))
-            else:
-                print("\033[31m{}, {}\033[0m".format(reader[i],now_result))
+        answer = get_all_value(reader)
+        true_answer = get_true_all_value(answer)
+        for it in true_answer:
+            print(it)
