@@ -1,4 +1,11 @@
+Beginers
+.vscode
+img
+receipt_img
+result
+result_pic
 user.db
 *.json
 __pycache__
 beginners.db
+
