@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>日付</th>
+            <th>場所</th>
+            <th>商品名</th>
+            <th>個数</th>
+            <th>原価</th>
+            <th>売値</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.id }}</td>
+            <td>{{ product.buy_date }}</td>
+            <td>{{ product.store }}</td>
+            <td>{{ product.title}}</td>
+            <td>{{ product.num }}</td>
+            <td>{{ product.natural_price }}</td>
+            <td>{{ product.sell_price }}</td>
+        </tr>
+        {% else %}
+        <td>商品が登録されていません。</td>
+        {% endfor %}
+    </tbody>
+</table>
+<form action="/addReceipt">
+    <button class="btn btn-primary">追加</button>
+</form>
+</div>
+ 
+{% endblock %}
