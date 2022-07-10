@@ -1,3 +1,4 @@
+# from crypt import methods
 import os
 from flask import Flask, render_template
 from flask import request, redirect, url_for
@@ -357,13 +358,17 @@ def product_list():
     products = Product.query.all()
     return render_template('price.html', products=products)
 
+@app.route('/test',methods=['GET', 'POST'])
+def test():
+    return render_template('test.html',buy_date=buy_date,data=price_data)
+
 @app.route('/addReceipt', methods=['GET', 'POST'])
 def addReceipt():
     if request.method == 'GET':
         return render_template('addReceipt.html')
     if request.method == 'POST':
         if(len(price_data) > 0):
-            return render_template('/addReceipt',buy_date=buy_date,items_information=price_data)
+            return render_template('addReceipt.html',buy_date=buy_date,data=price_data)
         form_title = request.form.get('title')
         form_store = request.form.get('store')
         form_natural_price = request.form.get('natural_price')
