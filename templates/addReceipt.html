@@ -1,30 +1,27 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="container mt-4">
-    <h2>データの追加だけ行うページ</h2>
+    <h2>データの追加</h2>
     <form action="/addReceipt" method="POST">
-        <label for="name">日付</label>
-        <input name="name"></input>
+        <label for="buy_date">日付</label>
+        <input name="buy_date"></input>
 
-        <label for="mail">場所</label>
-        <input name="mail"></input>
+        <label for="store">場所</label>
+        <input name="store"></input>
 
-        <label for="name">商品名</label>
-        <<input type="number" name="year" min="0">
+        <label for="title">商品名</label>
+        <input name="title">
 
-        <label for="department">個数</label>
-        <input name="department"></input>
+        <label for="num">個数</label>
+        <input type="number" name="num" min="0"></input>
         
-        <label for="year">原価</label>
-        <input type="number" name="year" min="0">
+        <label for="natural_price">原価</label>
+        <input type="number" name="natural_price" min="0">
 
-        <label for="year">売値</label>
-        <input type="number" name="year" min="0">
+        <label for="sell_price">売値</label>
+        <input type="number" name="sell_price" min="0">
 
-        <label for="name">購入者</label>
-        <input type="number" name="year" min="0">
-
-        <button type="submit" class="btn btn-primary">従業員追加</button>
+        <button type="submit" class="btn btn-primary">追加</button>
     </form>
 </div>
 {% endblock %}

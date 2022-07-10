@@ -34,10 +34,10 @@ class Product(db.Model):
     num = db.Column(db.Integer)
     natural_price = db.Column(db.Integer)
     sell_price = db.Column(db.Integer)
-    buy_date =db.Column(db.DateTime)
+    buy_date =db.Column(db.String(30))
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now(pytz.timezone('Asia/Tokyo')))
-    User_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
-
+    # User_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
+db.create_all()
 
 @app.route('/products')
 def product_list():
@@ -54,20 +54,23 @@ def addReceipt():
         form_num=request.form.get('num')
         form_natural_price=request.form.get('natural_price')
         form_buy_date=request.form.get('buy_date')
+        form_sell_price=request.form.get('sell_price')
 
         product = Product(
-            title=form_title,
+            buy_date=form_buy_date,
             store=form_store,
+            title=form_title,
             num=form_num,
             natural_price=form_natural_price,
-            buy_date=form_buy_date
+            sell_price=form_sell_price
+            
         )
         db.session.add(product)
         db.session.commit()
         return redirect(url_for('/product'))
 
 
-db.create_all()
+
 
 @login_manager.user_loader
 def load_user(user_id):
